@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- viewport-fit=cover: fills the iPhone notch/safe-area; user-scalable=no
+         + maximum-scale=1: prevents pinch-zoom / double-tap zoom from
+         breaking the full-screen camera view -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#000000" />
+    <title>WebAR Product Viewer</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- MindAR injects its own <video> + <canvas> into this container -->
+      <div id="ar-container"></div>
+
+      <div id="loading-screen" class="overlay" hidden>
+        <div class="spinner"></div>
+        <p id="loading-text">Đang khởi tạo AR...</p>
+      </div>
+
+      <div id="permission-screen" class="overlay" hidden>
+        <div class="permission-card">
+          <h1>Trải nghiệm AR</h1>
+          <p>Cho phép Camera để bắt đầu trải nghiệm AR</p>
+          <button id="permission-button" class="primary-button">Cho phép Camera</button>
+          <p id="permission-error" class="error-text" hidden></p>
+        </div>
+      </div>
+
+      <div id="unsupported-screen" class="overlay" hidden>
+        <div class="permission-card">
+          <h1>Không hỗ trợ AR</h1>
+          <p>Thiết bị hoặc trình duyệt của bạn chưa hỗ trợ trải nghiệm AR này.</p>
+          <p class="unsupported-reason error-text"></p>
+          <button id="fallback-viewer-button" class="primary-button">Xem sản phẩm 3D</button>
+        </div>
+      </div>
+
+      <div id="ar-hud" class="hud" hidden>
+        <p id="hud-status" class="hud-status">Đưa camera vào sản phẩm</p>
+        <div id="ar-actions" class="ar-actions" hidden>
+          <button class="chip-button" data-action="view">Xem sản phẩm</button>
+          <button class="chip-button" data-action="recipe">Xem công thức</button>
+          <button class="chip-button" data-action="buy">Mua ngay</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
