@@ -3,12 +3,8 @@ import type { ProductConfig } from '../types';
 /**
  * Data source for product config.
  *
- * Zero-cost default: static JSON at `/data/products.json` (served with the
- * Vite build on Cloudflare Pages / Netlify / Vercel / GitHub Pages — no
- * backend required).
- *
- * Optional API mode: set `VITE_API_BASE_URL` to your Express origin ending
- * in `/api` (e.g. `https://api.example.com/api` or `http://localhost:3000/api`).
+ * Zero-cost default: static JSON at `/data/products.json`.
+ * Optional API: set `VITE_API_BASE_URL` ending in `/api`.
  */
 const API_BASE_URL: string | undefined = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '');
 
@@ -22,11 +18,6 @@ export function withBase(path: string): string {
 
 const STATIC_CATALOG_URL = withBase('data/products.json');
 
-/**
- * Fetches a single product's AR configuration by id.
- * Never hard-code product data in the AR engine — everything the
- * tracking/render pipeline needs comes from this object.
- */
 export async function fetchProduct(productId: string): Promise<ProductConfig> {
   if (API_BASE_URL) {
     return fetchProductFromApi(productId);
@@ -68,25 +59,17 @@ async function fetchProductFromStaticCatalog(productId: string): Promise<Product
   return resolveProductAssets(product);
 }
 
-/** Rewrite asset paths so GitHub Pages / subpath deploys still resolve. */
 function resolveProductAssets(product: ProductConfig): ProductConfig {
   return {
     ...product,
     targetImage: withBase(product.targetImage),
     previewImage: withBase(product.previewImage),
-    model: withBase(product.model),
+    model: product.model ? withBase(product.model) : undefined,
   };
 }
 
-/** Basic runtime validation so a malformed catalog entry fails loudly. */
 function validateProductConfig(product: Partial<ProductConfig>): asserts product is ProductConfig {
-  const required: (keyof ProductConfig)[] = [
-    'id',
-    'name',
-    'targetImage',
-    'model',
-    'physicalWidth',
-  ];
+  const required: (keyof ProductConfig)[] = ['id', 'name', 'targetImage', 'previewImage', 'physicalWidth'];
 
   for (const key of required) {
     if (product[key] === undefined || product[key] === null) {
@@ -98,17 +81,19 @@ function validateProductConfig(product: Partial<ProductConfig>): asserts product
     throw new Error('physicalWidth phải là số dương (đơn vị: mét)');
   }
 
-  // Fill safe defaults so catalog entries can omit transform fields.
+  product.display ??= product.model ? 'model' : 'image-3d';
+  if (product.display === 'model' && !product.model) {
+    throw new Error('display=model yêu cầu trường "model" (.glb)');
+  }
+
   product.scale ??= 1;
   product.position ??= { x: 0, y: 0, z: 0 };
   product.rotation ??= { x: 0, y: 0, z: 0 };
-  product.previewImage ??= product.targetImage;
 }
 
 /**
  * Reads the product id from the current URL.
- * Supports both /ar/:id (via hosting rewrite) and ?product=:id (static hosting).
- * Also supports GitHub Pages subpaths: /web-ar/ar/:id
+ * Supports /ar/:id, GitHub Pages /web-ar/ar/:id, and ?product=:id.
  */
 export function getProductIdFromLocation(): string | null {
   const path = window.location.pathname;

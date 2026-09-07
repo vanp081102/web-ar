@@ -1,7 +1,6 @@
 /**
- * A single trackable product: one 2D printed Image Target mapped to one
- * .glb model. Adding a new product to the catalog is purely data — no
- * code changes required (see README section 13).
+ * A single trackable product: one 2D printed Image Target mapped to AR content.
+ * Adding a new product is purely data — no AR engine code changes required.
  */
 export interface ProductConfig {
   /** Unique id, also used as the URL slug: /ar/:id */
@@ -9,14 +8,19 @@ export interface ProductConfig {
   name: string;
   /** Path to the *compiled* .mind target file (not the raw .jpg) */
   targetImage: string;
-  /** Raw reference image, kept for the fallback/product-viewer screen */
+  /** Raw reference image printed on the package (also used for image-3d display) */
   previewImage: string;
-  /** Path to the .glb model served from /public/models */
-  model: string;
+  /**
+   * What appears when the target is found:
+   * - `image-3d` (default): the scanned image itself as a floating 3D card
+   * - `model`: a separate .glb product model
+   */
+  display?: 'image-3d' | 'model';
+  /** Path to .glb — required when display === 'model' */
+  model?: string;
   /**
    * Real-world width of the printed image target, in meters.
-   * MindAR scales the tracked plane to exactly this size, which is what
-   * keeps the model correctly sized relative to the physical package.
+   * Used as documentation / future scale hints; MindAR encodes size in .mind.
    */
   physicalWidth: number;
   scale: number;

@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import { ARManager } from './ar/ARManager';
 import { CameraManager } from './ar/CameraManager';
+import { ModelManager } from './ar/ModelManager';
 import { LoadingScreen } from './ui/LoadingScreen';
 import { PermissionScreen } from './ui/PermissionScreen';
 import { ARControls } from './ui/ARControls';
@@ -118,22 +118,21 @@ function startFallbackViewer(product: ProductConfig): void {
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
-  controls.target.set(0, product.position.y, 0);
+  controls.target.set(0, 0, 0);
 
-  new GLTFLoader().load(
-    product.model,
-    (gltf) => {
-      const model = gltf.scene;
-      model.scale.set(product.scale, product.scale, product.scale);
-      model.position.set(product.position.x, product.position.y, product.position.z);
-      model.rotation.set(product.rotation.x, product.rotation.y, product.rotation.z);
+  const modelManager = new ModelManager();
+  modelManager
+    .load(product)
+    .then((model) => {
+      // Fallback viewer: face the card toward the camera.
+      if ((product.display ?? 'image-3d') === 'image-3d') {
+        model.rotation.x = -0.15;
+      }
       scene.add(model);
-    },
-    undefined,
-    (error) => {
-      console.error('Failed to load fallback model:', error);
-    },
-  );
+    })
+    .catch((error) => {
+      console.error('Failed to load fallback content:', error);
+    });
 
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
