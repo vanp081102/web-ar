@@ -46,12 +46,15 @@ export class ARManager {
       container: this.container,
       imageTargetSrc: product.targetImage,
       maxTrack: 1,
-      // Keep MindAR's own overlays off — we render LoadingScreen/ARControls.
       uiLoading: 'no',
-      uiScanning: 'no',
-      uiError: 'no',
-      filterMinCF: 0.0001,
-      filterBeta: 0.001,
+      // Built-in scanning hint helps confirm tracking is running on mobile.
+      uiScanning: 'yes',
+      uiError: 'yes',
+      // Defaults track more reliably on first lock than ultra-smooth filter values.
+      filterMinCF: 0.001,
+      filterBeta: 1000,
+      warmupTolerance: 5,
+      missTolerance: 5,
     });
 
     const { renderer, scene, camera } = this.mindarThree;

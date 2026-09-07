@@ -34,8 +34,9 @@ body {
   height: 100%;
 }
 
-/* MindAR injects <video> (camera feed) and <canvas> (three.js render) as
-   siblings inside #ar-container; force them to fill the screen and stack */
+/* MindAR injects <video> + <canvas> into #ar-container.
+   Canvas MUST sit above video or the 3D content is invisible while the
+   camera feed still looks "fine" — the classic "nothing happens" bug. */
 #ar-container video,
 #ar-container canvas {
   position: absolute;
@@ -43,6 +44,20 @@ body {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover;
+}
+
+#ar-container video {
+  z-index: 1;
+}
+
+#ar-container canvas {
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* MindAR scanning / error overlays injected into the container */
+#ar-container .mindar-ui-overlay {
+  z-index: 3;
 }
 
 .overlay {
@@ -81,6 +96,11 @@ body {
   font-size: 15px;
   line-height: 1.5;
   color: #d0d0d0;
+}
+
+.hint-text {
+  font-size: 13px !important;
+  color: #9ad8ff !important;
 }
 
 .primary-button {

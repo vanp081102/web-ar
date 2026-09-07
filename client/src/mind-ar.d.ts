@@ -20,6 +20,8 @@ declare module 'mind-ar/dist/mindar-image-three.prod.js' {
     uiError?: 'yes' | 'no';
     filterMinCF?: number;
     filterBeta?: number;
+    warmupTolerance?: number;
+    missTolerance?: number;
   }
 
   export interface MindARAnchorLike {
