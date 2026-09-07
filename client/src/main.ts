@@ -24,11 +24,9 @@ async function bootstrap(): Promise<void> {
 
   const productId = getProductIdFromLocation();
   if (!productId) {
-    loadingScreen.hide();
-    permissionScreen.showError(
-      'Không tìm thấy mã sản phẩm. Mở URL dạng /ar/product-001 hoặc ?product=product-001',
-      { allowRetry: false },
-    );
+    // No product in URL → send user to the Camera-app → QR guide.
+    const base = import.meta.env.BASE_URL || '/';
+    window.location.replace(`${base}qr/`);
     return;
   }
 

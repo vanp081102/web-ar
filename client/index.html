@@ -26,12 +26,18 @@
         <p id="loading-text">Đang khởi tạo AR...</p>
       </div>
 
+      <!-- Entry when user opened Camera app → scanned QR → landed here -->
       <div id="permission-screen" class="overlay" hidden>
         <div class="permission-card">
-          <h1>Trải nghiệm AR</h1>
-          <p>Mở camera → quét flashcard/ảnh in → model 3D hiện trên card realtime (như video Anatomy Flashcards).</p>
-          <p class="hint-text">In ảnh target ra giấy hoặc mở trên màn hình khác. Không quét ảnh trên cùng điện thoại đang mở cam.</p>
-          <button id="permission-button" class="primary-button">Mở Camera</button>
+          <p class="step-badge">Bước 2 / 3</p>
+          <h1>Bật Camera AR</h1>
+          <ol class="flow-steps">
+            <li class="done">Mở app Camera → quét QR → mở link</li>
+            <li class="current">Cho phép Camera trong trang web</li>
+            <li>Hướng cam vào <strong>ảnh sản phẩm / flashcard</strong> (không phải QR)</li>
+          </ol>
+          <p class="hint-text">QR chỉ để mở link. Ảnh 3D hiện khi quét đúng hình in trên card.</p>
+          <button id="permission-button" class="primary-button">Cho phép Camera</button>
           <p id="permission-error" class="error-text" hidden></p>
         </div>
       </div>

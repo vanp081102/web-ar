@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hướng dẫn WebAR — Mở Camera → quét QR</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #111;
+        --muted: #555;
+        --line: #ddd;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        color: var(--ink);
+        background: #f6f6f6;
+        line-height: 1.45;
+      }
+      main {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 16px 48px;
+      }
+      h1 { font-size: 1.6rem; margin: 0 0 8px; }
+      .lead { color: var(--muted); margin: 0 0 24px; }
+      .card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      ol { margin: 0; padding-left: 1.2rem; }
+      li { margin: 8px 0; }
+      .qr {
+        display: block;
+        width: min(280px, 70vw);
+        height: auto;
+        margin: 12px auto;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+      .pair {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 1fr 1fr;
+      }
+      @media (max-width: 640px) {
+        .pair { grid-template-columns: 1fr; }
+      }
+      img.target {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+      }
+      code {
+        font-size: 0.85rem;
+        word-break: break-all;
+      }
+      .print { margin-top: 8px; }
+      @media print {
+        body { background: #fff; }
+        .no-print { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Flow đúng: mở app Camera → mở link</h1>
+      <p class="lead">
+        QR chỉ để mở trang web. Model 3D hiện khi camera trong web nhận diện
+        <strong>ảnh flashcard / bao bì</strong>.
+      </p>
+
+      <section class="card">
+        <h2>Cách dùng trên điện thoại</h2>
+        <ol>
+          <li><strong>Mở app Camera</strong> mặc định của máy.</li>
+          <li><strong>Quét QR</strong> bên dưới → Safari/Chrome tự mở link.</li>
+          <li>Trong trang web, bấm <strong>Cho phép Camera</strong>.</li>
+          <li><strong>Hướng cam vào ảnh sản phẩm</strong> (file target), không quét lại QR.</li>
+          <li>Model 3D nổi trên card và bám theo realtime.</li>
+        </ol>
+      </section>
+
+      <section class="card pair">
+        <div>
+          <h2>1. QR — mở link</h2>
+          <img class="qr" src="./product-001-qr.png" alt="QR mở trải nghiệm AR product-001" />
+          <p><code>https://vanp081102.github.io/web-ar/?product=product-001</code></p>
+          <p class="print no-print">In QR này ra giấy / dán cạnh sản phẩm.</p>
+        </div>
+        <div>
+          <h2>2. Ảnh target — để quét AR</h2>
+          <img class="target" src="../targets/product-001.png" alt="Ảnh Image Target product-001" />
+          <p>In ảnh này (hoặc mở trên màn hình khác) rồi hướng cam web vào đây.</p>
+        </div>
+      </section>
+
+      <section class="card no-print">
+        <h2>Lưu ý</h2>
+        <ul>
+          <li>Không mở link trước rồi mới mở Camera app.</li>
+          <li>Không quét ảnh target trên cùng điện thoại đang chạy AR.</li>
+          <li>Đủ sáng, đưa cả khung ảnh vào camera.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
