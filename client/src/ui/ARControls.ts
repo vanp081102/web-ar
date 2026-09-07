@@ -25,15 +25,15 @@ export class ARControls {
   updateTrackingState(state: TrackingState): void {
     switch (state) {
       case 'scanning':
-        this.status.textContent = 'Mở camera và quét hình sản phẩm';
+        this.status.textContent = 'Hướng camera vào flashcard / ảnh in';
         this.actions.hidden = true;
         break;
       case 'found':
-        this.status.textContent = 'Đang hiện hình 3D realtime';
+        this.status.textContent = 'Đã khóa target — model 3D đang bám theo card';
         this.actions.hidden = !this.product.actions;
         break;
       case 'lost':
-        this.status.textContent = 'Mở camera và quét hình sản phẩm';
+        this.status.textContent = 'Hướng camera vào flashcard / ảnh in';
         this.actions.hidden = true;
         break;
       default:

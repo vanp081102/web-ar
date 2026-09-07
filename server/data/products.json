@@ -1,17 +1,17 @@
 [
   {
     "id": "product-001",
-    "name": "Demo Card AR",
-    "display": "image-3d",
+    "name": "AR Flashcard Demo",
+    "display": "model",
     "targetImage": "/targets/product-001.mind",
     "previewImage": "/targets/product-001.png",
+    "model": "/models/product-001.glb",
     "physicalWidth": 0.15,
-    "scale": 1,
-    "position": { "x": 0, "y": 0, "z": 0 },
+    "scale": 0.01,
+    "position": { "x": 0, "y": 0.05, "z": 0.15 },
     "rotation": { "x": 0, "y": 0, "z": 0 },
     "actions": {
-      "view": "https://example.com/products/product-001",
-      "buy": "https://example.com/shop/product-001"
+      "view": "https://example.com/products/product-001"
     }
   }
 ]
